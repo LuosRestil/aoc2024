@@ -1,8 +1,8 @@
 from typing import List
 
 
-input = open('inputs/day02.txt', 'r')
-lines = [[int(num) for num in line.split(' ')] for line in input]
+infile = open('inputs/day02.txt', 'r')
+lines = [[int(num) for num in line.split(' ')] for line in infile]
 
 
 def is_safe(line: List[int]) -> bool:
@@ -32,3 +32,5 @@ for line in lines:
     if any([is_safe(var) for var in vars]):
         safe_ct += 1
 print(f"Part 2: {safe_ct}")
+
+infile.close()
