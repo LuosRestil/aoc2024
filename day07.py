@@ -1,5 +1,3 @@
-import functools
-
 infile = open('inputs/day07.txt', 'r')
 lines = infile.readlines()
 infile.close()
