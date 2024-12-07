@@ -1,3 +1,7 @@
+import time
+
+start = time.time()
+
 next_pos_mods = {
     '^': [-1, 0],
     'v': [1, 0],
@@ -103,7 +107,7 @@ def print_grid(grid):
 
 p1_grid = run_pt_1()
 print(f'Part 1: {count_trodden(p1_grid)}')
-print_grid(p1_grid)
+# print_grid(p1_grid)
 
 trodden = []
 for i in range(len(p1_grid)):
@@ -111,3 +115,6 @@ for i in range(len(p1_grid)):
         if p1_grid[i][j] in turns:
             trodden.append([i, j])
 run_pt_2(trodden)
+
+end = time.time()
+print(f'time: {end - start}s')
