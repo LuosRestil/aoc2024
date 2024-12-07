@@ -1,6 +1,3 @@
-import os
-import time
-
 next_pos_mods = {
     '^': [-1, 0],
     'v': [1, 0],
