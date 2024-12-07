@@ -32,7 +32,7 @@ for line in lines:
 print(f'Part 1: {total}')
 
 total = 0
-for line in lines: #156,7290,192
+for line in lines:
     if is_possible(line['total'], line['operands'], allow_third_operator=True):
         total += line['total']
 print(f'Part 2: {total}')
