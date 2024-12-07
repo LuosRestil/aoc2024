@@ -1,3 +1,7 @@
+import time
+
+start = time.time()
+
 infile = open('inputs/day07.txt', 'r')
 lines = infile.readlines()
 infile.close()
@@ -33,4 +37,9 @@ total = 0
 for line in lines:
     if is_possible(line['total'], line['operands'], allow_third_operator=True):
         total += line['total']
+
 print(f'Part 2: {total}')
+
+end = time.time()
+
+print(f'time: {end - start}s')
