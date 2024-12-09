@@ -85,16 +85,13 @@ def get_grid():
     infile.close()
     return grid
 
-def count_path(path: dict):
-    count = 0
-    for k,v in path.items():
-        print(k, v)
 
 def print_grid(grid):
     for row in grid:
         for col in row:
             print(col, end='')
         print('\n', end='')
+
 
 path = run_pt_1()
 print(f"Part 1: {len(path.keys())}")
