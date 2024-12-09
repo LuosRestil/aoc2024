@@ -3,67 +3,69 @@ console.time("time");
 const fs = require("fs");
 
 const filepath = "inputs/day09.txt";
-const dm = fs.readFileSync(filepath, { encoding: "utf-8" });
+const diskmap = fs.readFileSync(filepath, { encoding: "utf-8" });
 
-function makeDrep(dm) {
-  const drep = [];
-  for (let i = 0; i < dm.length; i += 2) {
+function makeDiskrep(diskmap) {
+  const diskrep = [];
+  for (let i = 0; i < diskmap.length; i += 2) {
     const id = Math.floor(i / 2);
-    const fileLen = Number(dm[i]);
+    const fileLen = Number(diskmap[i]);
     let last = false;
     let spaceLen = -1;
     try {
-      spaceLen = Number(dm[i + 1]);
+      spaceLen = Number(diskmap[i + 1]);
     } catch (err) {
       last = true;
     }
     for (let j = 0; j < fileLen; j++) {
-      drep.push(id);
+      diskrep.push(id);
     }
     if (!last) {
       for (let j = 0; j < spaceLen; j++) {
-        drep.push(".");
+        diskrep.push(".");
       }
     }
   }
-  return drep;
+  return diskrep;
 }
 
-let drep = makeDrep(dm);
+let diskrep = makeDiskrep(diskmap);
 
 let emptyPtr = 0;
-let endPtr = drep.length - 1;
+let endPtr = diskrep.length - 1;
 while (true) {
-  while (emptyPtr <= endPtr && drep[emptyPtr] !== ".") {
+  while (emptyPtr <= endPtr && diskrep[emptyPtr] !== ".") {
     emptyPtr++;
   }
 
   if (emptyPtr < endPtr) {
-    drep[emptyPtr] = drep[endPtr];
-    drep[endPtr] = ".";
+    diskrep[emptyPtr] = diskrep[endPtr];
+    diskrep[endPtr] = ".";
   } else {
     break;
   }
 
-  while (endPtr > 0 && drep[endPtr] === ".") {
+  while (endPtr > 0 && diskrep[endPtr] === ".") {
     endPtr--;
   }
 }
 
-const compacted = drep.filter((e) => e !== ".");
+const compacted = diskrep.filter((e) => e !== ".");
 let checksum = 0;
 for (let i = 0; i < compacted.length; i++) {
   checksum += i * compacted[i];
 }
 console.log(`Part 1: ${checksum}`);
 
-drep = makeDrep(dm);
+
+diskrep = makeDiskrep(diskmap);
+
 const freeSpaces = [];
 const files = [];
-let lastEntry = drep[0];
+let lastEntry = diskrep[0];
 let lastStart = 0;
-for (let i = 1; i < drep.length; i++) {
-  const curr = drep[i];
+for (let i = 1; i < diskrep.length; i++) {
+  const curr = diskrep[i];
   if (curr !== lastEntry) {
     const info = { start: lastStart, len: i - lastStart };
     if (lastEntry === ".") {
@@ -75,24 +77,25 @@ for (let i = 1; i < drep.length; i++) {
     lastEntry = curr;
   }
 }
-const finalInfo = { start: lastStart, len: drep.length - lastStart };
+const finalInfo = { start: lastStart, len: diskrep.length - lastStart };
 files.push(finalInfo);
 
 for (let i = files.length - 1; i >= 0; i--) {
   const file = files[i];
   for (const freeSpace of freeSpaces) {
+    if (freeSpace.start > file.start) break;
     if (freeSpace.len < file.len) continue;
     else {
       // write file to empty space
       for (let j = freeSpace.start; j < freeSpace.start + file.len; j++) {
-        drep[j] = i;
+        diskrep[j] = i;
       }
       // update free space
       freeSpace.start += file.len;
       freeSpace.len -= file.len;
       // write free space where file was
       for (let j = file.start; j < file.start + file.len; j++) {
-        drep[j] = ".";
+        diskrep[j] = ".";
       }
       break;
     }
@@ -100,9 +103,9 @@ for (let i = files.length - 1; i >= 0; i--) {
 }
 
 checksum = 0;
-for (let i = 0; i < drep.length; i++) {
-  if (drep[i] !== '.') {
-    checksum += i * drep[i];
+for (let i = 0; i < diskrep.length; i++) {
+  if (diskrep[i] !== '.') {
+    checksum += i * diskrep[i];
   }
 }
 console.log(`Part 2: ${checksum}`);
