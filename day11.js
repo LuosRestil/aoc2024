@@ -1,11 +1,8 @@
-/**
- * 0 -> 1
- * split in half
- * mult 2024
- */
+console.time('time');
 
-// const stones = "125 17".split(" ");
-const stones = "3 386358 86195 85 1267 3752457 0 741".split(" ");
+const fs = require('fs');
+
+const stones = fs.readFileSync('inputs/day11.txt', {encoding: 'utf-8'}).split(' ');
 
 let total = 0;
 for (let stone of stones) {
@@ -18,6 +15,8 @@ for (let stone of stones) {
   total += iterate(stone, 0, 75, {});
 }
 console.log(`Part 2: ${total}`);
+
+console.timeEnd('time');
 
 function iterate(num, iters, targetIters, memo) {
   if (iters === targetIters) return 1;
